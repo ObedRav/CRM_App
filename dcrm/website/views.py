@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from .forms import SignupForm
 
 # Create your views here.
-def home(request) -> render.__class__:
+def home(request):
     # Ckeck if logging in
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -24,8 +25,28 @@ def home(request) -> render.__class__:
         return render(request, 'home.html', {})
 
 
-def logout_user(request) -> redirect.__class__:
-    logout(request)
-    messages.success(request, 'You have been logged out')
-    print(request.__class__.__name__)
-    return redirect('home')
+def logout_user(request):
+	logout(request)
+	messages.success(request, "You Have Been Logged Out...")
+	return redirect('home')
+
+def register(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        
+        if form.is_valid():
+            form.save()
+
+            # Authenticate and loging
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, 'You have been registered')
+            return redirect('home')
+    else:
+        form = SignupForm()
+        return render(request, 'register.html', {'form': form})
+
+    return render(request, 'register.html', {'form': form})
