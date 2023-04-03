@@ -95,7 +95,7 @@ def update_record(request, pk):
             form.save()
             messages.success(request, "Record updated successfully!")
             return redirect('home')
-        return render(request, 'update_record.html', {'form': form})
+        return render(request, 'update_record.html', {'form': form, 'current_record': current_record})
     else:
         messages.error(request, 'You are not allowed to do this')
         return redirect('home')
