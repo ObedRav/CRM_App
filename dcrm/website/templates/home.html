@@ -64,7 +64,7 @@
 					<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 					<a href="{% url 'delete_record' record.id %}" class="btn btn-danger">Delete</a>
-					<button type="button" class="btn btn-primary">Save changes</button>
+					<a href="{% url 'update_record' record.id %}" class="btn btn-secondary">Update Record</a>
 					</div>
 				</div>
 				</div>
