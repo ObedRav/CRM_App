@@ -4,6 +4,7 @@ from django.contrib import messages
 from .forms import SignupForm, AddRecordForm
 from .models import Record
 
+
 # Create your views here.
 def home(request):
     records = Record.objects.all()
@@ -29,14 +30,15 @@ def home(request):
 
 
 def logout_user(request):
-	logout(request)
-	messages.success(request, "You Have Been Logged Out...")
-	return redirect('home')
+    logout(request)
+    messages.success(request, "You Have Been Logged Out...")
+    return redirect('home')
+
 
 def register(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
-        
+
         if form.is_valid():
             form.save()
 
@@ -54,6 +56,7 @@ def register(request):
 
     return render(request, 'register.html', {'form': form})
 
+
 def customer_record(request, pk):
     if request.user.is_authenticated:
         # Look up Record
@@ -64,6 +67,7 @@ def customer_record(request, pk):
         messages.error(request, 'You are not allowed to do this')
         return redirect('home')
 
+
 def delete_customer_record(request, pk):
     if request.user.is_authenticated:
         delete_it = Record.objects.get(id=pk).delete()
@@ -72,6 +76,7 @@ def delete_customer_record(request, pk):
     else:
         messages.error(request, 'You are not allowed to do this')
         return redirect('home')
+
 
 def add_record(request):
     form = AddRecordForm(request.POST or None)
@@ -86,6 +91,7 @@ def add_record(request):
     else:
         messages.error(request, 'You are not allowed to do this')
         return redirect('home')
+
 
 def update_record(request, pk):
     if request.user.is_authenticated:
