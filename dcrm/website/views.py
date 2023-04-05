@@ -85,7 +85,11 @@ def customer_record(request, pk):
     """
     if request.user.is_authenticated:
         # Look up Record
-        customer_record = Record.objects.get(id=pk)
+        try:
+            customer_record = Record.objects.get(id=pk)
+        except:
+            messages.error(request, 'The user doesn\'t exist')
+            return render(request, 'base.html')
 
         return render(request, 'record.html', {'customer_record': customer_record})
     else:
